@@ -144,25 +144,6 @@ nav {
    STATIC HEADER (framed painting)
 ========================================================= */
 
-.static-hero {
-  position: relative;
-  background: var(--bg);
-  overflow: hidden;
-  margin-top: 76px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px 25px;
-}
-
-.static-hero-img {
-  display: block;
-  width: 100%;
-  max-width: 1250px;
-  height: auto;
-  border-radius: 12px;
-}
-
 /* =========================================================
    SELECTED WORKS — compact horizontal slider
    (a pre-purchase glance at what's already in the Store —
@@ -326,27 +307,114 @@ nav {
 .work-card[hidden] { display: none; }
 
 /* =========================================================
-   ROOM VISUALIZER
+   ROOM VISUALIZER — now the page's hero section
 ========================================================= */
 
 .room-visualizer {
-  max-width: 1250px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 100px 25px 40px;
-  border-top: 1px solid var(--line);
+  padding: 130px 25px 60px;
   text-align: center;
 }
 
+.rv-intro { margin-bottom: 36px; }
+
 .room-visualizer .section-kicker { justify-content: center; }
 
-.room-visualizer .section-title { margin-bottom: 18px; }
+.rv-main-title {
+  font-size: clamp(28px, 5vw, 46px);
+  font-weight: 200;
+  letter-spacing: 2px;
+  margin-bottom: 22px;
+}
 
-.rv-copy {
-  max-width: 56ch;
-  margin: 0 auto 36px;
+.rv-try-now {
+  display: inline-block;
+  border: none;
+  background: var(--gold);
+  color: #000;
+  border-radius: 999px;
+  padding: 12px 28px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.25s;
+  margin-bottom: 30px;
+}
+
+.rv-try-now:hover { background: #fff; }
+
+.rv-steps {
+  list-style: none;
+  max-width: 58ch;
+  margin: 0 auto;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rv-steps li {
   color: var(--ink-dim);
   font-size: 13px;
   line-height: 1.8;
+}
+
+.rv-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: #000;
+  font-size: 10px;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.rv-picker {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  justify-content: flex-start;
+  padding: 6px 2px 18px;
+  margin-bottom: 22px;
+  scrollbar-width: none;
+}
+
+.rv-picker::-webkit-scrollbar { display: none; }
+
+@media (min-width: 760px) {
+  .rv-picker { justify-content: center; flex-wrap: wrap; }
+}
+
+.rv-thumb {
+  flex: 0 0 auto;
+  width: 76px;
+  height: 76px;
+  border-radius: 10px;
+  border: 2px solid var(--line-strong);
+  background: var(--bg-raised);
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  transition: 0.2s;
+}
+
+.rv-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.rv-thumb:hover { border-color: #ffffff55; }
+
+.rv-thumb.is-active {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px #d4af3733;
 }
 
 .rv-controls {
@@ -374,17 +442,6 @@ nav {
 }
 
 .rv-upload:hover { background: var(--gold); color: #000; }
-
-.rv-select {
-  background: var(--bg-raised-2);
-  color: #fff;
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  padding: 11px 18px;
-  font-size: 11px;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-}
 
 .rv-btn {
   border: 1px solid var(--line-strong);
@@ -499,7 +556,7 @@ footer {
 @media (max-width: 768px) {
   nav { padding: 15px 20px; }
   .nav-links { display: none; }
-  .static-hero { margin-top: 64px; padding: 12px 14px; }
+  .room-visualizer { padding-top: 100px; }
   .works-head { flex-direction: column; align-items: flex-start; }
   .slider-arrow { display: none; }
 }

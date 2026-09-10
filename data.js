@@ -108,7 +108,7 @@ const PRODUCTS = [
     pilot: true,
     storeUrl: "https://ko-fi.com/s/fa9902873f",
     image: `${STORE_ORIGIN}/painting6.jpg`,
-    frameImage: `${STORE_ORIGIN}/framepainting6.jpg`,
+    frameImage: `${STORE_ORIGIN}/framepainting6.png`,
     palette: ["#101d24", "#2e5468", "#d4af37", "#080d0f"]
   },
   {

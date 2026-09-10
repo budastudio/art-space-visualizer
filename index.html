@@ -22,8 +22,8 @@
 
   <ul class="nav-links" id="navLinks">
     <li><a href="#top" class="is-active">Home</a></li>
-    <li><a href="#works">Artworks</a></li>
     <li><a href="#space">Space</a></li>
+    <li><a href="#works">Artworks</a></li>
     <li><a href="#about">About</a></li>
   </ul>
 
@@ -35,12 +35,33 @@
 
 <main id="top">
 
-  <!-- STATIC HEADER -->
-  <section class="static-hero" id="hero">
-    <img class="static-hero-img" id="staticHeroImg"
-         src="explicativo_english.jpg"
-         alt="Visualize it in your space — how it works: upload a photo, pick and place, see it in your space"
-         onerror="this.closest('.static-hero').style.display='none'" />
+  <!-- ROOM VISUALIZER — now the hero of the page -->
+  <section class="room-visualizer" id="space">
+    <div class="rv-intro">
+      <p class="section-kicker">See it in your space</p>
+      <h1 class="rv-main-title">Visualize It In Your Space</h1>
+      <button class="rv-try-now" id="rvTryNow">Try Now</button>
+      <ol class="rv-steps">
+        <li><span class="rv-step-num">1</span> Select a painting,</li>
+        <li><span class="rv-step-num">2</span> then upload a photo of your wall. Drag it into place and resize it from the corner handle. Nothing leaves your browser — this composite is exclusive, just for you.</li>
+      </ol>
+    </div>
+
+    <div class="rv-picker" id="rvPicker" role="listbox" aria-label="Select a painting"></div>
+
+    <div class="rv-controls">
+      <label class="rv-upload">
+        <input type="file" id="roomUpload" accept="image/*" hidden />
+        Upload a photo of your wall
+      </label>
+
+      <button id="rvDownload" class="rv-btn" disabled>Download preview</button>
+    </div>
+
+    <div class="rv-canvas-wrap" id="rvCanvasWrap">
+      <canvas id="rvCanvas" width="900" height="560"></canvas>
+      <p class="rv-hint" id="rvHint">Select a painting above, then upload a photo of your wall.</p>
+    </div>
   </section>
 
   <!-- SELECTED WORKS -->
@@ -62,33 +83,6 @@
       <button class="slider-arrow slider-prev" id="worksPrev" aria-label="Previous works">‹</button>
       <div class="works-grid" id="worksGrid"></div>
       <button class="slider-arrow slider-next" id="worksNext" aria-label="Next works">›</button>
-    </div>
-  </section>
-
-  <!-- ROOM VISUALIZER -->
-  <section class="room-visualizer" id="space">
-    <p class="section-kicker">See it in your space</p>
-    <h2 class="section-title">Visualize It In Your Space</h2>
-    <p class="rv-copy">
-      Select a painting, then upload a photo of your wall. Drag it
-      into place and resize it from the corner handle. Nothing
-      leaves your browser — this composite is just for you.
-    </p>
-
-    <div class="rv-controls">
-      <select id="rvArtworkSelect" class="rv-select" aria-label="Select the painting"></select>
-
-      <label class="rv-upload">
-        <input type="file" id="roomUpload" accept="image/*" hidden />
-        Upload a photo of your wall
-      </label>
-
-      <button id="rvDownload" class="rv-btn" disabled>Download preview</button>
-    </div>
-
-    <div class="rv-canvas-wrap" id="rvCanvasWrap">
-      <canvas id="rvCanvas" width="900" height="560"></canvas>
-      <p class="rv-hint" id="rvHint">Select a painting above, then upload a photo of your wall.</p>
     </div>
   </section>
 

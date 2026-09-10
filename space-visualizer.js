@@ -235,14 +235,34 @@ function rvDownload() {
   link.click();
 }
 
+function rvRenderPicker(wallWorks, selectedId) {
+  const picker = document.getElementById("rvPicker");
+  picker.innerHTML = wallWorks.map(work => `
+    <button type="button"
+            class="rv-thumb${work.id === selectedId ? " is-active" : ""}"
+            data-id="${work.id}"
+            role="option"
+            aria-selected="${work.id === selectedId}"
+            title="${work.name}">
+      <img src="${work.frameImage}" alt="${work.name}" loading="lazy" />
+    </button>
+  `).join("");
+}
+
+function rvSetActiveThumb(id) {
+  document.querySelectorAll(".rv-thumb").forEach(btn => {
+    const isActive = Number(btn.dataset.id) === id;
+    btn.classList.toggle("is-active", isActive);
+    btn.setAttribute("aria-selected", String(isActive));
+  });
+}
+
 function initRoomVisualizer() {
   rv.canvas = document.getElementById("rvCanvas");
   if (!rv.canvas) return; // section not present on this page
   rv.ctx = rv.canvas.getContext("2d");
 
-  const select = document.getElementById("rvArtworkSelect");
   const wallWorks = PRODUCTS.filter(p => p.frameImage);
-  select.innerHTML = wallWorks.map(p => `<option value="${p.id}">${p.name}</option>`).join("");
 
   // Deep link support: a link like index.html?artwork=6#space (e.g.
   // a future "Visualize in your space" button on the Store) lands
@@ -252,7 +272,7 @@ function initRoomVisualizer() {
   const requested = wallWorks.find(p => p.id === requestedId);
   const pilot = requested || wallWorks.find(p => p.pilot) || wallWorks[0];
 
-  select.value = String(pilot.id);
+  rvRenderPicker(wallWorks, pilot.id);
   rvLoadArtwork(pilot);
 
   if (requested) {
@@ -261,9 +281,13 @@ function initRoomVisualizer() {
     }, 300);
   }
 
-  select.addEventListener("change", () => {
-    const work = wallWorks.find(p => p.id === Number(select.value));
-    if (work) rvLoadArtwork(work);
+  document.getElementById("rvPicker").addEventListener("click", (e) => {
+    const btn = e.target.closest(".rv-thumb");
+    if (!btn) return;
+    const work = wallWorks.find(p => p.id === Number(btn.dataset.id));
+    if (!work) return;
+    rvSetActiveThumb(work.id);
+    rvLoadArtwork(work);
   });
 
   document.getElementById("roomUpload").addEventListener("change", (e) => {
@@ -272,6 +296,10 @@ function initRoomVisualizer() {
   });
 
   document.getElementById("rvDownload").addEventListener("click", rvDownload);
+
+  document.getElementById("rvTryNow")?.addEventListener("click", () => {
+    document.getElementById("rvCanvasWrap")?.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
 
   rv.canvas.addEventListener("mousedown", rvOnDown);
   window.addEventListener("mousemove", rvOnMove);
