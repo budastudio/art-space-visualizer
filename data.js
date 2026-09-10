@@ -27,6 +27,12 @@
  * — matching product ids 1–10. The T-shirt (id 11) has no
  * frameImage and is excluded from that picker since it isn't
  * something you hang on a wall.
+ *
+ * Unlike `image` above, these files are NOT fetched from the Store
+ * — they're expected to live locally, right next to index.html
+ * (paths like "./framepainting1.jpg"). Upload the 10 files into
+ * the project root with these exact names (note framepainting6 is
+ * a .png, the rest are .jpg) and they'll load immediately.
  */
 
 const STORE_ORIGIN = "https://budastudio.github.io";
@@ -42,7 +48,7 @@ const PRODUCTS = [
     badge: "ORIGINAL",
     storeUrl: "https://ko-fi.com/s/46d2940042",
     image: `${STORE_ORIGIN}/painting1.jpg`,
-    frameImage: `${STORE_ORIGIN}/framepainting1.jpg`,
+    frameImage: "./framepainting1.jpg",
     palette: ["#2a2118", "#6b5a3c", "#d4af37", "#0c0b09"]
   },
   {
@@ -55,7 +61,7 @@ const PRODUCTS = [
     badge: "ORIGINAL",
     storeUrl: "https://ko-fi.com/s/38851e3f31",
     image: `${STORE_ORIGIN}/painting2.jpg`,
-    frameImage: `${STORE_ORIGIN}/framepainting2.jpg`,
+    frameImage: "./framepainting2.jpg",
     palette: ["#241d1c", "#7a5a3a", "#d4af37", "#0c0b09"]
   },
   {
@@ -68,7 +74,7 @@ const PRODUCTS = [
     badge: "1/1",
     storeUrl: "https://ko-fi.com/s/76813a1c79",
     image: `${STORE_ORIGIN}/painting3.jpg`,
-    frameImage: `${STORE_ORIGIN}/framepainting3.jpg`,
+    frameImage: "./framepainting3.jpg",
     palette: ["#1c2a1e", "#3f6b4a", "#d4af37", "#0c0b09"]
   },
   {
@@ -81,7 +87,7 @@ const PRODUCTS = [
     badge: "ORIGINAL",
     storeUrl: "https://ko-fi.com/s/d211819c76",
     image: `${STORE_ORIGIN}/painting4.jpg`,
-    frameImage: `${STORE_ORIGIN}/framepainting4.jpg`,
+    frameImage: "./framepainting4.jpg",
     palette: ["#2a1f16", "#8a5a2a", "#d4af37", "#0c0b09"]
   },
   {
@@ -94,7 +100,7 @@ const PRODUCTS = [
     badge: "ORIGINAL",
     storeUrl: "https://ko-fi.com/s/7e1c09de43",
     image: `${STORE_ORIGIN}/painting5.jpg`,
-    frameImage: `${STORE_ORIGIN}/framepainting5.jpg`,
+    frameImage: "./framepainting5.jpg",
     palette: ["#241f14", "#8a742a", "#d4af37", "#0c0b09"]
   },
   {
@@ -108,7 +114,7 @@ const PRODUCTS = [
     pilot: true,
     storeUrl: "https://ko-fi.com/s/fa9902873f",
     image: `${STORE_ORIGIN}/painting6.jpg`,
-    frameImage: `${STORE_ORIGIN}/framepainting6.png`,
+    frameImage: "./framepainting6.png",
     palette: ["#101d24", "#2e5468", "#d4af37", "#080d0f"]
   },
   {
@@ -121,7 +127,7 @@ const PRODUCTS = [
     badge: "ORIGINAL",
     storeUrl: "https://ko-fi.com/s/ea15c0870d",
     image: `${STORE_ORIGIN}/painting7.jpg`,
-    frameImage: `${STORE_ORIGIN}/framepainting7.jpg`,
+    frameImage: "./framepainting7.jpg",
     palette: ["#1e1a24", "#524068", "#d4af37", "#0c0b09"]
   },
   {
@@ -134,7 +140,7 @@ const PRODUCTS = [
     badge: "HAND MADE",
     storeUrl: "https://ko-fi.com/s/f378fa06fd",
     image: `${STORE_ORIGIN}/painting8.jpg`,
-    frameImage: `${STORE_ORIGIN}/framepainting8.jpg`,
+    frameImage: "./framepainting8.jpg",
     palette: ["#241a1a", "#8a3a3a", "#d4af37", "#0c0b09"]
   },
   {
@@ -147,7 +153,7 @@ const PRODUCTS = [
     badge: "ORIGINAL",
     storeUrl: "https://ko-fi.com/s/6c36c11e9b",
     image: `${STORE_ORIGIN}/painting9.jpg`,
-    frameImage: `${STORE_ORIGIN}/framepainting9.jpg`,
+    frameImage: "./framepainting9.jpg",
     palette: ["#18181a", "#4a4a52", "#d4af37", "#0c0b09"]
   },
   {
@@ -160,7 +166,7 @@ const PRODUCTS = [
     badge: "ORIGINAL",
     storeUrl: "https://ko-fi.com/s/a6a73cd012",
     image: `${STORE_ORIGIN}/painting10.jpg`,
-    frameImage: `${STORE_ORIGIN}/framepainting10.jpg`,
+    frameImage: "./framepainting10.jpg",
     palette: ["#242018", "#c9a832", "#0c0b09", "#050504"]
   },
   {
