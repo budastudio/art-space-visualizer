@@ -39,47 +39,6 @@ function renderArtworkVisual(container, work, opts = {}) {
 }
 
 /* ---------------------------------------------------------------
-   FEATURED WORK — the pilot piece, "Waves — Triptych"
---------------------------------------------------------------- */
-
-function renderFeatured() {
-  // "On the wall now" always shows framepainting1.jpg — id 1 in the
-  // data, so its metadata (title/technique/dimensions) stays honest
-  // and matches the photo. The Room Visualizer below still defaults
-  // to the pilot piece separately.
-  const work = PRODUCTS.find(p => p.id === 1) || PRODUCTS[0];
-
-  const canvas = document.getElementById("featuredCanvas");
-  canvas.innerHTML = "";
-  renderArtworkVisual(canvas, work, { preferFrame: true });
-
-  document.getElementById("pedestalLabel").textContent =
-    `On view now — ${work.badge}`;
-
-  document.getElementById("featuredInfo").innerHTML = `
-    <div class="row">
-      <span class="k">Artist</span>
-      <span class="v">${ARTIST_NAME}</span>
-    </div>
-    <div class="row">
-      <span class="k">Title</span>
-      <span class="v name">${work.name}</span>
-    </div>
-    <div class="row">
-      <span class="k">Technique</span>
-      <span class="v">${work.technique}</span>
-    </div>
-    <div class="row">
-      <span class="k">Dimensions</span>
-      <span class="v" style="font-size:13px;">${work.dimensions}</span>
-    </div>
-    <a class="view-store-link" href="${work.storeUrl}" target="_blank" rel="noopener">
-      View in Store <span aria-hidden="true">→</span>
-    </a>
-  `;
-}
-
-/* ---------------------------------------------------------------
    SELECTED WORKS GRID
 --------------------------------------------------------------- */
 
@@ -158,7 +117,6 @@ function initNavToggle() {
 --------------------------------------------------------------- */
 
 document.addEventListener("DOMContentLoaded", () => {
-  renderFeatured();
   renderGrid();
   initFilters();
   initSliderArrows();
