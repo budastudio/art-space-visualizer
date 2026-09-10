@@ -24,12 +24,13 @@ function paintCanvas(el, palette) {
  * quietly hides itself and the wash underneath keeps showing —
  * the page never shows a broken-image icon.
  */
-function renderArtworkVisual(container, work) {
+function renderArtworkVisual(container, work, opts = {}) {
   paintCanvas(container, work.palette);
-  if (!work.image) return;
+  const src = (opts.preferFrame && work.frameImage) ? work.frameImage : work.image;
+  if (!src) return;
 
   const img = document.createElement("img");
-  img.src = work.image;
+  img.src = src;
   img.alt = work.name;
   img.loading = "lazy";
   img.style.cssText = "width:100%;height:100%;object-fit:cover;display:block;";
@@ -42,11 +43,15 @@ function renderArtworkVisual(container, work) {
 --------------------------------------------------------------- */
 
 function renderFeatured() {
-  const work = PRODUCTS.find(p => p.pilot) || PRODUCTS[0];
+  // "On the wall now" always shows framepainting1.jpg — id 1 in the
+  // data, so its metadata (title/technique/dimensions) stays honest
+  // and matches the photo. The Room Visualizer below still defaults
+  // to the pilot piece separately.
+  const work = PRODUCTS.find(p => p.id === 1) || PRODUCTS[0];
 
   const canvas = document.getElementById("featuredCanvas");
   canvas.innerHTML = "";
-  renderArtworkVisual(canvas, work);
+  renderArtworkVisual(canvas, work, { preferFrame: true });
 
   document.getElementById("pedestalLabel").textContent =
     `On view now — ${work.badge}`;
@@ -95,11 +100,6 @@ function renderGrid() {
       <div class="work-card-info">
         <div class="work-type">${work.category}</div>
         <div class="work-name">${work.name}</div>
-        <p class="work-desc">${work.description}</p>
-        <div class="work-meta">
-          <span><strong>Technique:</strong> ${work.technique}</span>
-          <span><strong>Dimensions:</strong> ${work.dimensions}</span>
-        </div>
         <a class="work-card-link" href="${work.storeUrl}" target="_blank" rel="noopener">
           View in Store
         </a>
@@ -128,6 +128,17 @@ function initFilters() {
   });
 }
 
+function initSliderArrows() {
+  const grid = document.getElementById("worksGrid");
+  const prev = document.getElementById("worksPrev");
+  const next = document.getElementById("worksNext");
+  if (!grid || !prev || !next) return;
+
+  const step = () => Math.round(grid.clientWidth * 0.75);
+  prev.addEventListener("click", () => grid.scrollBy({ left: -step(), behavior: "smooth" }));
+  next.addEventListener("click", () => grid.scrollBy({ left: step(), behavior: "smooth" }));
+}
+
 /* ---------------------------------------------------------------
    NAV TOGGLE (mobile)
 --------------------------------------------------------------- */
@@ -150,5 +161,6 @@ document.addEventListener("DOMContentLoaded", () => {
   renderFeatured();
   renderGrid();
   initFilters();
+  initSliderArrows();
   initNavToggle();
 });
