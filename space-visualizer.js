@@ -19,6 +19,7 @@ const rv = {
   roomImg: null,
   work: null,
   artworkImg: null,
+  imgAspect: null, // locked width/height ratio of the current artwork's frame photo
   rect: { x: 0, y: 0, w: 0, h: 0 },
   mode: null, // 'move' | 'resize' | null
   dragStart: null,
@@ -128,8 +129,32 @@ function rvOnMove(e) {
     rv.rect.y = Math.max(0, Math.min(rv.canvas.height - rv.rect.h, rv.rectStart.y + dy));
   } else if (rv.mode === "resize") {
     const minSize = 40;
-    rv.rect.w = Math.max(minSize, Math.min(rv.canvas.width - rv.rect.x, rv.rectStart.w + dx));
-    rv.rect.h = Math.max(minSize, Math.min(rv.canvas.height - rv.rect.y, rv.rectStart.h + dy));
+    const aspect = rv.imgAspect || (rv.rectStart.w / rv.rectStart.h);
+
+    // Drive the resize off whichever axis moved further, then derive
+    // the other dimension from the locked aspect ratio — this keeps
+    // the framed painting proportional, never stretched or squashed.
+    const driveByWidth = Math.abs(dx) >= Math.abs(dy * aspect);
+    let newW, newH;
+
+    if (driveByWidth) {
+      newW = Math.max(minSize, rv.rectStart.w + dx);
+      newH = newW / aspect;
+    } else {
+      newH = Math.max(minSize, rv.rectStart.h + dy);
+      newW = newH * aspect;
+    }
+
+    // Clamp so the frame never runs off the canvas, preserving aspect
+    const maxW = rv.canvas.width - rv.rect.x;
+    const maxH = rv.canvas.height - rv.rect.y;
+    if (newW > maxW) { newW = maxW; newH = newW / aspect; }
+    if (newH > maxH) { newH = maxH; newW = newH * aspect; }
+    if (newW < minSize) { newW = minSize; newH = newW / aspect; }
+    if (newH < minSize) { newH = minSize; newW = newH * aspect; }
+
+    rv.rect.w = newW;
+    rv.rect.h = newH;
   }
 
   rvDrawScene();
@@ -142,12 +167,31 @@ function rvOnUp() {
 function rvLoadArtwork(work) {
   rv.work = work;
   rv.artworkImg = null;
+  rv.imgAspect = null;
 
-  if (work.image) {
+  const src = work.frameImage || work.image;
+  if (src) {
     const img = new Image();
-    img.onload = () => { rv.artworkImg = img; rvDrawScene(); };
+    img.onload = () => {
+      rv.artworkImg = img;
+      rv.imgAspect = img.naturalWidth / img.naturalHeight;
+
+      // Re-fit the existing rect to the new aspect ratio, keeping its
+      // width and center, so switching artworks never leaves a
+      // stretched frame on screen.
+      if (rv.roomImg) {
+        const cx = rv.rect.x + rv.rect.w / 2;
+        const cy = rv.rect.y + rv.rect.h / 2;
+        const newH = rv.rect.w / rv.imgAspect;
+        rv.rect.h = newH;
+        rv.rect.x = Math.max(0, Math.min(rv.canvas.width - rv.rect.w, cx - rv.rect.w / 2));
+        rv.rect.y = Math.max(0, Math.min(rv.canvas.height - rv.rect.h, cy - newH / 2));
+      }
+
+      rvDrawScene();
+    };
     img.onerror = () => { rv.artworkImg = null; rvDrawScene(); };
-    img.src = work.image;
+    img.src = src;
   }
 
   rvDrawScene();
@@ -166,7 +210,8 @@ function rvLoadRoomPhoto(file) {
     rv.roomImg = img;
 
     const rw = Math.round(w * 0.3);
-    const rh = Math.round(rw * 1.25);
+    const aspect = rv.imgAspect || 0.8;
+    const rh = Math.round(rw / aspect);
     rv.rect = {
       x: Math.round((w - rw) / 2),
       y: Math.round((h - rh) / 2),
@@ -196,13 +241,28 @@ function initRoomVisualizer() {
   rv.ctx = rv.canvas.getContext("2d");
 
   const select = document.getElementById("rvArtworkSelect");
-  select.innerHTML = PRODUCTS.map(p => `<option value="${p.id}">${p.name}</option>`).join("");
-  const pilot = PRODUCTS.find(p => p.pilot) || PRODUCTS[0];
+  const wallWorks = PRODUCTS.filter(p => p.frameImage);
+  select.innerHTML = wallWorks.map(p => `<option value="${p.id}">${p.name}</option>`).join("");
+
+  // Deep link support: a link like index.html?artwork=6#space (e.g.
+  // a future "Visualize in your space" button on the Store) lands
+  // here with that piece already selected.
+  const params = new URLSearchParams(window.location.search);
+  const requestedId = Number(params.get("artwork"));
+  const requested = wallWorks.find(p => p.id === requestedId);
+  const pilot = requested || wallWorks.find(p => p.pilot) || wallWorks[0];
+
   select.value = String(pilot.id);
   rvLoadArtwork(pilot);
 
+  if (requested) {
+    setTimeout(() => {
+      document.getElementById("space")?.scrollIntoView({ behavior: "smooth" });
+    }, 300);
+  }
+
   select.addEventListener("change", () => {
-    const work = PRODUCTS.find(p => p.id === Number(select.value));
+    const work = wallWorks.find(p => p.id === Number(select.value));
     if (work) rvLoadArtwork(work);
   });
 

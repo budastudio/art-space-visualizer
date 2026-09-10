@@ -38,58 +38,6 @@ function renderArtworkVisual(container, work) {
 }
 
 /* ---------------------------------------------------------------
-   AMBIENT HERO — cross-fades through a curated set of real works
---------------------------------------------------------------- */
-
-let ambientIndex = 0;
-let ambientSlides = [];
-
-function buildAmbientSlides() {
-  const pilot = PRODUCTS.find(p => p.pilot);
-  const rest = PRODUCTS.filter(p => !p.pilot).slice(0, 4);
-  ambientSlides = [pilot, ...rest].filter(Boolean);
-
-  const track = document.getElementById("ambientTrack");
-  const dots = document.getElementById("ambientDots");
-  track.innerHTML = "";
-  dots.innerHTML = "";
-
-  ambientSlides.forEach((work, i) => {
-    const slide = document.createElement("div");
-    slide.className = "ambient-slide" + (i === 0 ? " active" : "");
-    slide.innerHTML = `<div class="ambient-canvas"></div>`;
-    track.appendChild(slide);
-    renderArtworkVisual(slide.querySelector(".ambient-canvas"), work);
-
-    const dot = document.createElement("div");
-    dot.className = "ambient-dot" + (i === 0 ? " active" : "");
-    dots.appendChild(dot);
-  });
-
-  updateAmbientText();
-}
-
-function showAmbient(i) {
-  const slides = document.querySelectorAll(".ambient-slide");
-  const dots = document.querySelectorAll(".ambient-dot");
-  if (!slides.length) return;
-
-  ambientIndex = (i + slides.length) % slides.length;
-  slides.forEach(s => s.classList.remove("active"));
-  dots.forEach(d => d.classList.remove("active"));
-  slides[ambientIndex].classList.add("active");
-  dots[ambientIndex].classList.add("active");
-  updateAmbientText();
-}
-
-function updateAmbientText() {
-  const work = ambientSlides[ambientIndex];
-  if (!work) return;
-  document.getElementById("ambientTitle").textContent = work.name.toUpperCase();
-  document.getElementById("ambientSubtitle").textContent = work.description;
-}
-
-/* ---------------------------------------------------------------
    FEATURED WORK — the pilot piece, "Waves — Triptych"
 --------------------------------------------------------------- */
 
@@ -199,10 +147,8 @@ function initNavToggle() {
 --------------------------------------------------------------- */
 
 document.addEventListener("DOMContentLoaded", () => {
-  buildAmbientSlides();
   renderFeatured();
   renderGrid();
   initFilters();
   initNavToggle();
-  setInterval(() => showAmbient(ambientIndex + 1), 5500);
 });

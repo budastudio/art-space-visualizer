@@ -35,16 +35,18 @@
 
 <main id="top">
 
-  <!-- AMBIENT HERO -->
-  <section class="ambient-hero" id="hero">
-    <div id="ambientTrack"></div>
-    <div class="ambient-overlay"></div>
-    <div class="ambient-content">
+  <!-- STATIC HEADER -->
+  <section class="static-hero" id="hero">
+    <img class="static-hero-img" id="staticHeroImg"
+         src="https://budastudio.github.io/framepainting.jpg"
+         alt="Buda Studio — framed painting"
+         onerror="this.style.display='none'" />
+    <div class="static-hero-overlay"></div>
+    <div class="static-hero-content">
       <p class="ambient-kicker">Buda Studio / Artworks in Space</p>
-      <h1 class="ambient-title" id="ambientTitle">Loading</h1>
-      <p class="ambient-subtitle" id="ambientSubtitle"></p>
+      <h1 class="static-hero-title">Art Space Visualizer</h1>
+      <p class="static-hero-subtitle">A digital room for the works of Buda Studio.</p>
     </div>
-    <div class="ambient-dots" id="ambientDots"></div>
   </section>
 
   <!-- FEATURED WORK -->
@@ -93,7 +95,7 @@
         Upload a photo of your wall
       </label>
 
-      <select id="rvArtworkSelect" class="rv-select" aria-label="Choose an artwork"></select>
+      <select id="rvArtworkSelect" class="rv-select" aria-label="Select the painting"></select>
 
       <button id="rvDownload" class="rv-btn" disabled>Download preview</button>
     </div>
