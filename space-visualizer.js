@@ -200,7 +200,7 @@ function rvLoadArtwork(work) {
 function rvLoadRoomPhoto(file) {
   const img = new Image();
   img.onload = () => {
-    const maxW = 900, maxH = 560;
+    const maxW = 630, maxH = 392;
     const scale = Math.min(maxW / img.width, maxH / img.height, 1);
     const w = Math.round(img.width * scale);
     const h = Math.round(img.height * scale);
@@ -220,7 +220,6 @@ function rvLoadRoomPhoto(file) {
     };
 
     document.getElementById("rvDownload").disabled = false;
-    document.getElementById("rvShare").disabled = false;
     document.getElementById("rvHint").hidden = true;
     document.getElementById("rvCanvasWrap").classList.add("has-image");
     rvDrawScene();
@@ -239,41 +238,6 @@ function rvDownload() {
   link.download = rvFileName("png");
   link.href = rv.canvas.toDataURL("image/png");
   link.click();
-}
-
-/**
- * Share the composited canvas using the device's native share sheet
- * (works for Instagram, X, Messages, etc. on most phones and modern
- * desktop browsers). If the browser can't share files, we fall back
- * to just downloading the image so the person can still post it
- * manually — no dead button either way.
- */
-function rvShare() {
-  if (!rv.roomImg) return;
-
-  rv.canvas.toBlob(async (blob) => {
-    if (!blob) return;
-    const file = new File([blob], rvFileName("png"), { type: "image/png" });
-    const shareData = {
-      files: [file],
-      title: "Art Space Visualizer",
-      text: `${rv.work?.name || "This piece"} by ${ARTIST_NAME} — visualized in my own space.`
-    };
-
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      try {
-        await navigator.share(shareData);
-        return;
-      } catch (err) {
-        if (err?.name === "AbortError") return; // person just closed the sheet
-      }
-    }
-
-    // Fallback for browsers without native file sharing: download the
-    // image so it's ready to attach manually.
-    rvDownload();
-    alert("Your preview downloaded — attach it on Instagram or X to share it.");
-  }, "image/png");
 }
 
 function rvRenderPicker(wallWorks, selectedId) {
@@ -337,7 +301,6 @@ function initRoomVisualizer() {
   });
 
   document.getElementById("rvDownload").addEventListener("click", rvDownload);
-  document.getElementById("rvShare").addEventListener("click", rvShare);
 
   rv.canvas.addEventListener("mousedown", rvOnDown);
   window.addEventListener("mousemove", rvOnMove);

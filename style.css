@@ -443,16 +443,9 @@ nav {
 
 .rv-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
-.rv-btn-accent {
-  border-color: var(--gold);
-  color: var(--gold);
-}
-
-.rv-btn-accent:not(:disabled):hover { background: var(--gold); color: #000; border-color: var(--gold); }
-
 .rv-canvas-wrap {
   position: relative;
-  max-width: 900px;
+  max-width: 630px;
   margin: 0 auto;
   border: 1px solid var(--line);
   border-radius: 20px;
