@@ -66,7 +66,7 @@ function renderGrid() {
     `;
 
     grid.appendChild(card);
-    renderArtworkVisual(card.querySelector(".work-canvas"), work);
+    renderArtworkVisual(card.querySelector(".work-canvas"), work, { preferFrame: true });
   });
 }
 
