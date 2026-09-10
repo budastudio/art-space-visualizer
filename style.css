@@ -328,23 +328,6 @@ nav {
   margin-bottom: 22px;
 }
 
-.rv-try-now {
-  display: inline-block;
-  border: none;
-  background: var(--gold);
-  color: #000;
-  border-radius: 999px;
-  padding: 12px 28px;
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: 0.25s;
-  margin-bottom: 30px;
-}
-
-.rv-try-now:hover { background: #fff; }
-
 .rv-steps {
   list-style: none;
   max-width: 58ch;
@@ -459,6 +442,13 @@ nav {
 .rv-btn:not(:disabled):hover { background: #fff; color: #000; border-color: #fff; }
 
 .rv-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.rv-btn-accent {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.rv-btn-accent:not(:disabled):hover { background: var(--gold); color: #000; border-color: var(--gold); }
 
 .rv-canvas-wrap {
   position: relative;
